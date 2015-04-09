@@ -18,7 +18,7 @@ gem.
   s.executables = ['hitfox-suspenders']
   s.extra_rdoc_files = %w[README.md LICENSE]
   s.files = `git ls-files`.split("\n")
-  s.homepage = 'https://github.com/DemitryT/hitfox-suspenders'
+  s.homepage = 'https://github.com/HitFox/hitfox-suspenders'
   s.license = 'MIT'
   s.name = 'hitfox-suspenders'
   s.rdoc_options = ['--charset=UTF-8']
