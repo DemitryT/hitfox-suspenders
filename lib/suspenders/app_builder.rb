@@ -58,10 +58,20 @@ module Suspenders
       copy_file 'factory_girl_rspec.rb', 'spec/support/factory_girl.rb'
     end
 
-    def configure_mandrill
+    def configure_newrelic
+      template 'newrelic.yml.erb', 'config/newrelic.yml'
+    end
+
+    def configure_smtp
+      copy_file 'smtp.rb', 'config/smtp.rb'
+
+      prepend_file 'config/environments/production.rb',
+        %{require Rails.root.join("config/smtp")\n}
+
       config = <<-RUBY
-  # Use Mandrill for emails
-  config.action_mailer.delivery_method = :mandrill
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = SMTP_SETTINGS
       RUBY
 
       inject_into_file 'config/environments/production.rb', config,
@@ -78,6 +88,22 @@ module Suspenders
       inject_into_file(
         "config/environments/production.rb",
         config,
+        after: serve_static_files_line
+      )
+    end
+
+    def setup_asset_host
+      replace_in_file 'config/environments/production.rb',
+        "# config.action_controller.asset_host = 'http://assets.example.com'",
+        'config.action_controller.asset_host = ENV.fetch("ASSET_HOST", ENV.fetch("HOST"))'
+
+      replace_in_file 'config/initializers/assets.rb',
+        "config.assets.version = '1.0'",
+        'config.assets.version = (ENV["ASSETS_VERSION"] || "1.0")'
+
+      inject_into_file(
+        "config/environments/production.rb",
+        '  config.static_cache_control = "public, max-age=#{1.year.to_i}"',
         after: serve_static_files_line
       )
     end
@@ -164,8 +190,8 @@ end
       copy_file "spec_helper.rb", "spec/spec_helper.rb"
     end
 
-    def configure_circleci
-      copy_file 'circle.yml', 'circle.yml'
+    def configure_travis
+      template 'travis.yml.erb', '.travis.yml'
     end
 
     def configure_i18n_for_test_environment

@@ -1,6 +1,6 @@
 # HitFox's Suspenders [![Circle CI](https://circleci.com/gh/HitFox/hitfox-suspenders.svg?style=svg)](https://circleci.com/gh/HitFox/hitfox-suspenders)
 
-This is a [suspenders](https://github.com/thoughtbot/suspenders) fork we use at [HitFox Group](http://hitfoxgroup.com).
+This is a [suspenders](https://github.com/thoughtbot/suspenders) fork we use at [hitfox](http://hitfoxgroup.com).
 Big thanks to [thoughtbot](http://thoughtbot.com/community). Also, thanks to [weLaika](https://github.com/welaika) for providing an example of the forked suspenders gem, with a lot of the configurations we use as well.
 
 

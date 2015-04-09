@@ -92,7 +92,7 @@ module Suspenders
       build :configure_background_jobs_for_rspec
       build :enable_database_cleaner
       build :configure_spec_support_features
-      build :configure_circleci
+      build :configure_travis
       build :configure_i18n_for_test_environment
       build :configure_i18n_tasks
       build :configure_action_mailer_in_specs
@@ -100,9 +100,11 @@ module Suspenders
 
     def setup_production_environment
       say 'Setting up the production environment'
-      build :configure_mandrill
+      build :configure_newrelic
+      build :configure_smtp
       build :configure_rack_timeout
       build :enable_rack_deflater
+      build :setup_asset_host
     end
 
     def setup_staging_environment
