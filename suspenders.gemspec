@@ -5,25 +5,25 @@ require 'date'
 
 Gem::Specification.new do |s|
   s.required_ruby_version = ">= #{Suspenders::RUBY_VERSION}"
-  s.authors = ['thoughtbot']
+  s.authors = ['thoughtbot', 'hitfox']
   s.date = Date.today.strftime('%Y-%m-%d')
 
   s.description = <<-HERE
-Suspenders is a base Rails project that you can upgrade. It is used by
-thoughtbot to get a jump start on a working app. Use Suspenders if you're in a
-rush to build something amazing; don't use it if you like missing deadlines.
+Suspenders is a base Rails project that includes the gems we like to
+use at Hitfox. This is our fork of the Thoughtbot's original suspenders
+gem.
   HERE
 
-  s.email = 'support@thoughtbot.com'
-  s.executables = ['suspenders']
+  s.email = 'demitry.toumilovich@hitfoxgroup.com'
+  s.executables = ['hitfox-suspenders']
   s.extra_rdoc_files = %w[README.md LICENSE]
   s.files = `git ls-files`.split("\n")
-  s.homepage = 'http://github.com/thoughtbot/suspenders'
+  s.homepage = 'https://github.com/DemitryT/hitfox-suspenders'
   s.license = 'MIT'
-  s.name = 'suspenders'
+  s.name = 'hitfox-suspenders'
   s.rdoc_options = ['--charset=UTF-8']
   s.require_paths = ['lib']
-  s.summary = "Generate a Rails app using thoughtbot's best practices."
+  s.summary = "Generate a Rails app using Hitfox's best practices."
   s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.version = Suspenders::VERSION
 
