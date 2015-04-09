@@ -208,7 +208,7 @@ module Suspenders
 
     def outro
       say 'Congratulations! You just pulled our suspenders.'
-      say "Remember to run 'rails generate airbrake' with your API key."
+      say "Remember to run 'bundle exec honeybadger install API_KEY' with your API key."
     end
 
     protected
