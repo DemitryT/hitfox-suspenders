@@ -63,8 +63,6 @@ module Suspenders
 
       config = <<-RUBY
   config.action_mailer.delivery_method = :mandrill
-  config.secret_key_base = ENV["SECRET_KEY_BASE"]
-  config.action_mailer.default_url_options = { host: ENV['WEB_ADDRESS_EXT'] }
       RUBY
 
       inject_into_file 'config/environments/production.rb', config,
@@ -108,7 +106,7 @@ module Suspenders
       config = <<-RUBY
 
 Rails.application.configure do
-  # ...
+  config.secret_key_base = ENV["SECRET_KEY_BASE"]
 end
       RUBY
 
@@ -117,6 +115,12 @@ end
 
     def setup_secret_token
       template 'secrets.yml', 'config/secrets.yml', force: true
+
+      inject_into_file(
+        "config/environments/production.rb",
+        '  config.active_record.dump_schema_after_migration = false',
+        after: 'config.active_record.dump_schema_after_migration = false'
+      )
     end
 
     def disallow_wrapping_parameters
@@ -230,8 +234,8 @@ Rack::Timeout.timeout = (ENV["RACK_TIMEOUT"] || 10).to_i
     def configure_action_mailer
       action_mailer_host "development", %{"localhost:#{port}"}
       action_mailer_host "test", %{"www.example.com"}
-      action_mailer_host "staging", %{ENV.fetch("HOST")}
-      action_mailer_host "production", %{ENV.fetch("HOST")}
+      action_mailer_host "staging", %{ENV['WEB_ADDRESS_EXT']}
+      action_mailer_host "production", %{ENV['WEB_ADDRESS_EXT']}
     end
 
     def configure_active_job

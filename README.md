@@ -36,4 +36,5 @@ List of changes we made since [this commit](https://github.com/thoughtbot/suspen
 - Add Honeybadger configuration and remove New Relic
 - Use simple_form 3.0.3 to supress annoying warnings in specs
 - Add Mandrill configuration
+- Use the Cloud66 ENV variable name for the HOST (used for action_mailer_host)
 
