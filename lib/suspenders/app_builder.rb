@@ -58,16 +58,13 @@ module Suspenders
       copy_file 'factory_girl_rspec.rb', 'spec/support/factory_girl.rb'
     end
 
-    def configure_smtp
-      copy_file 'smtp.rb', 'config/smtp.rb'
-
-      prepend_file 'config/environments/production.rb',
-        %{require Rails.root.join("config/smtp")\n}
+    def configure_mandrill
+      copy_file 'mandrill.rb', 'config/initializers/mandrill.rb'
 
       config = <<-RUBY
-
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = SMTP_SETTINGS
+  config.action_mailer.delivery_method = :mandrill
+  config.secret_key_base = ENV["SECRET_KEY_BASE"]
+  config.action_mailer.default_url_options = { host: ENV['WEB_ADDRESS_EXT'] }
       RUBY
 
       inject_into_file 'config/environments/production.rb', config,

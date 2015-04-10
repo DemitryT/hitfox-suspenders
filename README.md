@@ -35,4 +35,5 @@ List of changes we made since [this commit](https://github.com/thoughtbot/suspen
 - Add CircleCI configuration and remove the Travis one
 - Add Honeybadger configuration and remove New Relic
 - Use simple_form 3.0.3 to supress annoying warnings in specs
+- Add Mandrill configuration
 
