@@ -103,7 +103,6 @@ module Suspenders
       build :configure_mandrill
       build :configure_rack_timeout
       build :enable_rack_deflater
-      build :setup_asset_host
     end
 
     def setup_staging_environment
@@ -207,7 +206,7 @@ module Suspenders
 
     def outro
       say 'Congratulations! You just pulled our suspenders.'
-      say "Remember to run 'bundle exec honeybadger install API_KEY' with your API key."
+      say 'Please read through all of the items in the newly generated README for next steps.'
     end
 
     protected

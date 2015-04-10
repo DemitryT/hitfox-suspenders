@@ -24,7 +24,9 @@ is [purposefully excluded from the project's `Gemfile`][exclude].
 
 ## Assumptions
 * [Mandrill](https://mandrill.com/) is used for email delivery on production
+ * MANDRILL_API_KEY must be set as an ENV variable on the server
 * [Honeybadger](https://www.honeybadger.io/) is used for Exception monitoring
+ * Remember to run `bundle exec honeybadger install API_KEY` with your API key on the staging and production servers.
 * [Rspec](https://github.com/rspec/rspec-rails) is used as the testing library
 * Postgres is the database in use
 * [Simple form](https://github.com/plataformatec/simple_form) is used for building forms
