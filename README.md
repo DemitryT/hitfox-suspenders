@@ -37,4 +37,7 @@ List of changes we made since [this commit](https://github.com/thoughtbot/suspen
 - Use simple_form 3.0.3 to supress annoying warnings in specs
 - Add Mandrill configuration
 - Use the Cloud66 ENV variable name for the HOST (used for action_mailer_host)
+- Add company specific assumptions to the README generator
+- Remove CDN, Heroku, Unicorn, Segment and delayed_jobs configurations
+- Remove deployment scripts and Procfile
 
