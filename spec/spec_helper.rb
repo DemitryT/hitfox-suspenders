@@ -18,7 +18,6 @@ RSpec.configure do |config|
     drop_dummy_database
     remove_project_directory
 
-    FakeHeroku.clear!
     FakeGithub.clear!
   end
 end

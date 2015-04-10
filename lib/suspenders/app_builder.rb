@@ -148,14 +148,6 @@ end
       create_file '.ruby-version', "#{Suspenders::RUBY_VERSION}\n"
     end
 
-    def setup_heroku_specific_gems
-      inject_into_file(
-        "Gemfile",
-        %{\n\s\sgem "rails_stdout_logging"},
-        after: /group :staging, :production do/
-      )
-    end
-
     def enable_database_cleaner
       copy_file 'database_cleaner_rspec.rb', 'spec/support/database_cleaner.rb'
     end
@@ -190,10 +182,6 @@ end
       copy_file "config_i18n_tasks.yml", "config/i18n-tasks.yml"
     end
 
-    def configure_background_jobs_for_rspec
-      run 'rails g delayed_job:active_record'
-    end
-
     def configure_action_mailer_in_specs
       copy_file 'action_mailer.rb', 'spec/support/action_mailer.rb'
     end
@@ -222,13 +210,6 @@ Rack::Timeout.timeout = (ENV["RACK_TIMEOUT"] || 10).to_i
       action_mailer_host "production", %{ENV['WEB_ADDRESS_EXT']}
     end
 
-    def configure_active_job
-      configure_application_file(
-        "config.active_job.queue_adapter = :delayed_job"
-      )
-      configure_environment "test", "config.active_job.queue_adapter = :inline"
-    end
-
     def fix_i18n_deprecation_warning
       config = <<-RUBY
     config.i18n.enforce_available_locales = true
@@ -241,13 +222,8 @@ Rack::Timeout.timeout = (ENV["RACK_TIMEOUT"] || 10).to_i
       generate 'rspec:install'
     end
 
-    def configure_unicorn
-      copy_file 'unicorn.rb', 'config/unicorn.rb'
-    end
-
     def setup_foreman
       copy_file 'sample.env', '.sample.env'
-      copy_file 'Procfile', 'Procfile'
     end
 
     def setup_stylesheets
@@ -281,86 +257,9 @@ Rack::Timeout.timeout = (ENV["RACK_TIMEOUT"] || 10).to_i
       run 'git init'
     end
 
-    def create_staging_heroku_app(flags)
-      rack_env = "RACK_ENV=staging RAILS_ENV=staging"
-      app_name = heroku_app_name_for("staging")
-
-      run_heroku "create #{app_name} #{flags}", "staging"
-      run_heroku "config:add #{rack_env}", "staging"
-    end
-
-    def create_production_heroku_app(flags)
-      app_name = heroku_app_name_for("production")
-
-      run_heroku "create #{app_name} #{flags}", "production"
-    end
-
-    def create_heroku_apps(flags)
-      create_staging_heroku_app(flags)
-      create_production_heroku_app(flags)
-    end
-
-    def set_heroku_remotes
-      remotes = <<-SHELL
-
-# Set up the staging and production apps.
-#{join_heroku_app('staging')}
-#{join_heroku_app('production')}
-      SHELL
-
-      append_file 'bin/setup', remotes
-    end
-
-    def join_heroku_app(environment)
-      heroku_app_name = heroku_app_name_for(environment)
-      <<-SHELL
-if heroku join --app #{heroku_app_name} &> /dev/null; then
-  git remote add #{environment} git@heroku.com:#{heroku_app_name}.git || true
-  printf 'You are a collaborator on the "#{heroku_app_name}" Heroku app\n'
-else
-  printf 'Ask for access to the "#{heroku_app_name}" Heroku app\n'
-fi
-      SHELL
-    end
-
-    def set_heroku_rails_secrets
-      %w(staging production).each do |environment|
-        run_heroku "config:add SECRET_KEY_BASE=#{generate_secret}", environment
-      end
-    end
-
-    def set_heroku_serve_static_files
-      %w(staging production).each do |environment|
-        run_heroku "config:add RAILS_SERVE_STATIC_FILES=true", environment
-      end
-    end
-
-    def provide_deploy_script
-      copy_file "bin_deploy", "bin/deploy"
-
-      instructions = <<-MARKDOWN
-
-## Deploying
-
-If you have previously run the `./bin/setup` script,
-you can deploy to staging and production with:
-
-    $ ./bin/deploy staging
-    $ ./bin/deploy production
-      MARKDOWN
-
-      append_file "README.md", instructions
-      run "chmod a+x bin/deploy"
-    end
-
     def create_github_repo(repo_name)
       path_addition = override_path_for_tests
       run "#{path_addition} hub create #{repo_name}"
-    end
-
-    def setup_segment
-      copy_file '_analytics.html.erb',
-        'app/views/application/_analytics.html.erb'
     end
 
     def setup_bundler_audit
@@ -427,11 +326,6 @@ end
       end
     end
 
-    def run_heroku(command, environment)
-      path_addition = override_path_for_tests
-      run "#{path_addition} heroku #{command} --remote #{environment}"
-    end
-
     def generate_secret
       SecureRandom.hex(64)
     end
@@ -444,8 +338,5 @@ end
       "config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?\n"
     end
 
-    def heroku_app_name_for(environment)
-      "#{app_name.dasherize}-#{environment}"
-    end
   end
 end

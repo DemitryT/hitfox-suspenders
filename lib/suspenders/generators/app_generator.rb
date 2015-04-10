@@ -6,12 +6,6 @@ module Suspenders
     class_option :database, type: :string, aliases: "-d", default: "postgresql",
       desc: "Configure for selected database (options: #{DATABASES.join("/")})"
 
-    class_option :heroku, type: :boolean, aliases: "-H", default: false,
-      desc: "Create staging and production Heroku apps"
-
-    class_option :heroku_flags, type: :string, default: "",
-      desc: "Set extra Heroku flags"
-
     class_option :github, type: :string, aliases: "-G", default: nil,
       desc: "Create Github repository and add remote origin pointed to repo"
 
@@ -45,9 +39,7 @@ module Suspenders
       invoke :remove_routes_comment_lines
       invoke :setup_git
       invoke :setup_database
-      invoke :create_heroku_apps
       invoke :create_github_repo
-      invoke :setup_segment
       invoke :setup_bundler_audit
       invoke :outro
     end
@@ -55,10 +47,6 @@ module Suspenders
     def customize_gemfile
       build :replace_gemfile
       build :set_ruby_to_version_being_used
-
-      if options[:heroku]
-        build :setup_heroku_specific_gems
-      end
 
       bundle_command 'install'
     end
@@ -89,7 +77,6 @@ module Suspenders
       build :set_up_factory_girl_for_rspec
       build :generate_rspec
       build :configure_rspec
-      build :configure_background_jobs_for_rspec
       build :enable_database_cleaner
       build :configure_spec_support_features
       build :configure_circleci
@@ -126,13 +113,11 @@ module Suspenders
     def configure_app
       say 'Configuring app'
       build :configure_action_mailer
-      build :configure_active_job
       build :configure_time_formats
       build :configure_simple_form
       build :disable_xml_params
       build :fix_i18n_deprecation_warning
       build :setup_default_rake_task
-      build :configure_unicorn
       build :setup_foreman
     end
 
@@ -151,17 +136,6 @@ module Suspenders
         say 'Initializing git'
         invoke :setup_gitignore
         invoke :init_git
-      end
-    end
-
-    def create_heroku_apps
-      if options[:heroku]
-        say "Creating Heroku apps"
-        build :create_heroku_apps, options[:heroku_flags]
-        build :set_heroku_serve_static_files
-        build :set_heroku_remotes
-        build :set_heroku_rails_secrets
-        build :provide_deploy_script
       end
     end
 

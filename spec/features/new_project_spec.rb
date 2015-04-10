@@ -49,15 +49,6 @@ feature 'Suspend a new project with default configuration' do
     expect(File).to exist("#{project_path}/spec/support/i18n.rb")
   end
 
-  scenario 'records pageviews through Segment if ENV variable set' do
-    run_suspenders
-
-    expect(analytics_partial).
-      to include(%{<% if ENV["SEGMENT_KEY"] %>})
-    expect(analytics_partial).
-      to include(%{window.analytics.load("<%= ENV["SEGMENT_KEY"] %>");})
-  end
-
   scenario "raises on unpermitted parameters in all environments" do
     run_suspenders
 
@@ -113,23 +104,5 @@ feature 'Suspend a new project with default configuration' do
     dev_env_file = IO.read("#{project_path}/config/environments/development.rb")
     expect(dev_env_file).
       to match(/^ +config.action_mailer.delivery_method = :test$/)
-  end
-
-  scenario "config active job queue adapter" do
-    run_suspenders
-
-    application_config = IO.read("#{project_path}/config/application.rb")
-    test_config = IO.read("#{project_path}/config/environments/test.rb")
-
-    expect(application_config).to match(
-      /^ +config.active_job.queue_adapter = :delayed_job$/
-    )
-    expect(test_config).to match(
-      /^ +config.active_job.queue_adapter = :inline$/
-    )
-  end
-
-  def analytics_partial
-    IO.read("#{project_path}/app/views/application/_analytics.html.erb")
   end
 end
