@@ -31,7 +31,7 @@ Changelog
 We constantly pull the latest chages from Thoughtbot's [suspenders](https://github.com/thoughtbot/suspenders) periodically.
 
 List of changes we made since [this commit](https://github.com/thoughtbot/suspenders/commit/a470912e9df01fda62f0c23ce032a1c9b5493b69):
-- Add CircleCI configuration and remove the Travis one
+- Add CircleCI configuration template
 - Add Honeybadger configuration and remove New Relic
 - Use simple_form 3.0.3 to supress annoying warnings in specs
 - Add Mandrill configuration
@@ -39,4 +39,4 @@ List of changes we made since [this commit](https://github.com/thoughtbot/suspen
 - Add company specific assumptions to the README generator
 - Remove CDN, Heroku, Unicorn, Segment and delayed_jobs configurations
 - Remove deployment scripts and Procfile
-
+- Remove Travis configuration and add the CircleCI one for the suspenders gem
