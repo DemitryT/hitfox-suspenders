@@ -31,7 +31,6 @@ Changelog
 We constantly pull the latest chages from Thoughtbot's [suspenders](https://github.com/thoughtbot/suspenders) periodically.
 
 List of changes we made since [this commit](https://github.com/thoughtbot/suspenders/commit/a470912e9df01fda62f0c23ce032a1c9b5493b69):
-- Use Ruby 2.2.0 for CircleCI compatibility
 - Add CircleCI configuration and remove the Travis one
 - Add Honeybadger configuration and remove New Relic
 - Use simple_form 3.0.3 to supress annoying warnings in specs
