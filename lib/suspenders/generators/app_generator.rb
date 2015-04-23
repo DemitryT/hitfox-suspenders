@@ -146,11 +146,6 @@ module Suspenders
       end
     end
 
-    def setup_segment
-      say 'Setting up Segment'
-      build :setup_segment
-    end
-
     def setup_gitignore
       build :gitignore_files
     end
