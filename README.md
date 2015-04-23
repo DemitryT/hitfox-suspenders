@@ -40,3 +40,4 @@ List of changes we made since [this commit](https://github.com/thoughtbot/suspen
 - Remove CDN, Heroku, Unicorn, Segment and delayed_jobs configurations
 - Remove deployment scripts and Procfile
 - Remove Travis configuration and add the CircleCI one for the suspenders gem
+- Use Ruby 2.2.0 for CircleCI compatibility
