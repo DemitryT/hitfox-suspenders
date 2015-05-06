@@ -33,6 +33,7 @@ module Suspenders
       invoke :create_suspenders_views
       invoke :configure_app
       invoke :setup_stylesheets
+      invoke :install_refills
       invoke :install_bitters
       invoke :copy_miscellaneous_files
       invoke :customize_error_pages
