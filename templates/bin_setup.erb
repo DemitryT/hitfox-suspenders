@@ -31,6 +31,10 @@ if ! command -v foreman > /dev/null; then
   printf 'See https://github.com/ddollar/foreman for install instructions.\n'
 fi
 
+# generate refills template files here - fails if you do
+# it in the hitfox app generator
+rails generate refills:import flashes --only-stylesheets
+
 # Only if this isn't CI
 # if [ -z "$CI" ]; then
 # fi
