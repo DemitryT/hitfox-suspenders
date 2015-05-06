@@ -227,9 +227,9 @@ Rack::Timeout.timeout = (ENV["RACK_TIMEOUT"] || 10).to_i
     end
 
     def setup_stylesheets
-      remove_file 'app/assets/stylesheets/application.css'
-      copy_file 'application.css.scss',
-        'app/assets/stylesheets/application.css.scss'
+      remove_file "app/assets/stylesheets/application.css"
+      copy_file "application.scss",
+                "app/assets/stylesheets/application.scss"
     end
 
     def install_bitters
