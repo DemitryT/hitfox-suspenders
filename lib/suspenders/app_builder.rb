@@ -224,6 +224,7 @@ Rack::Timeout.timeout = (ENV["RACK_TIMEOUT"] || 10).to_i
 
     def setup_foreman
       copy_file 'sample.env', '.sample.env'
+      copy_file 'Procfile.development', 'Procfile.development'
     end
 
     def setup_stylesheets
